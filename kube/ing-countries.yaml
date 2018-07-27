@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-countries
+  namespace: countries-ns
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  backend:
+    serviceName: default-http-backend
+    servicePort: 80
+  rules:
+  - host: countries.example.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: countries
+          servicePort: 8080

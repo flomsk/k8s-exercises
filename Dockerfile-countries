@@ -1,0 +1,9 @@
+FROM frolvlad/alpine-oraclejdk8:slim
+MAINTAINER Oleg Makarov <theolegmakarov@gmail.com>
+
+ADD countries-assembly-1.0.1.jar app.jar
+RUN sh -c 'touch /app.jar'
+
+ENTRYPOINT ["java","-jar","/app.jar"]
+
+EXPOSE 8080

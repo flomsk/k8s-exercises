@@ -1,0 +1,51 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: airports
+  namespace: airports-ns
+  labels:
+    app: airports
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+  selector:
+    app: airports
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: airports
+  namespace: airports-ns
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: airports
+    spec:
+      containers:
+      - name: airports
+        image: flomsk/airports:v1.0.1
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 8080
+          initialDelaySeconds: 15
+          timeoutSeconds: 3
+          periodSeconds: 15
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 8080
+          initialDelaySeconds: 15
+          timeoutSeconds: 3
+          periodSeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
