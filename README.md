@@ -18,6 +18,45 @@
   - Apply service.yaml + ing-service.yaml
   - Check API endpoints: **countries.example.com** - for countries service; **airports.example.com** - for airports service
 
+<table>
+    <tr>
+        <td>service</td>
+        <td>endpoint</td>
+        <td>result</td>
+    </tr>
+    <tr>
+        <td rowspan="2">countries v1.0.1</td>
+        <td>/countries</td>
+        <td>full list of countries</td>
+    </tr>
+    <tr>
+        <td>/countries/&lt;qry&gt;</td>
+        <td>to search by name \ iso code</td>
+    </tr>
+    <tr>
+        <td rowspan="2">airports v1.0.1</td>
+        <td>/airports</td>
+        <td>full list of airports</td>
+    </tr>
+    <tr>
+        <td>/airports/&lt;qry&gt;</td>
+        <td>to get a list of airports based on country code (e.g.: "nl")</td>
+    </tr>
+    <tr>
+        <td rowspan="3">airports v1.1.0</td>
+        <td> /airports/&lt;id&gt; </td>
+        <td>Returns the full information of an airport based on its identifier. E.g.: /airports/EHAM returns all information for Schiphol.</td>
+    </tr>
+    <tr>
+        <td> /airports?full=[0|1]</td>
+        <td> Returns a summary or all details of all airports, depending on the value of full.</td>
+        </tr>
+    <tr>
+        <td>/search/&lt;qry&gt;</td>
+        <td> Returns a list of airports based on a country code search.</td>
+    </tr>
+</table>
+
 ### Updating airports service to newer version:
 1. `kubectl set image deployment airports airports=flomsk/airports:v1.1.0 -n airports-ns`
 2. check status with: `kubectl rollout status deployment airports -n airports-ns`
